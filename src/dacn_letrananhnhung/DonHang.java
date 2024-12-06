@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public abstract class DonHang implements IDonHang {
+public class DonHang implements IDonHang {
 
     String maDH, tenKH, diaChi,tenSP, trangThai;
     float donGia;
@@ -14,15 +14,15 @@ public abstract class DonHang implements IDonHang {
     public DonHang() {
     }
 
-    public DonHang(String maDH, String tenKH, String diaChi, String tenSP,String trangThai , float donGia, int soLuong, Date ngayDat) {
+    public DonHang(String maDH, String tenKH, String diaChi, String tenSP , float donGia, int soLuong, Date ngayDat,String trangThai) {
         this.maDH = maDH;
         this.tenKH = tenKH;
         this.diaChi = diaChi;
         this.tenSP = tenSP;
-        this.trangThai = trangThai;
         this.donGia = donGia;
         this.soLuong = soLuong;
         this.ngayDat = ngayDat;
+        this.trangThai = trangThai;
     }
 
     
@@ -59,13 +59,7 @@ public abstract class DonHang implements IDonHang {
         this.tenSP = tenSP;
     }
 
-    public String getTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(String trangThai) {
-        this.trangThai = trangThai;
-    }
+    
 
     public float getDonGia() {
         return donGia;
@@ -90,6 +84,13 @@ public abstract class DonHang implements IDonHang {
     public void setNgayDat(Date ngayDat) {
         this.ngayDat = ngayDat;
     }
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
 
     public static Date chuyenChuoiThanhNgay(String str) {
         try {
@@ -104,12 +105,12 @@ public abstract class DonHang implements IDonHang {
     public static String chuyenNgayThanhChuoi(Date ngay) {
         return new SimpleDateFormat("dd/MM/yyyy").format(ngay);
     }
-    public static String dinhDangSo(double n){
+    public static String dinhDangSo(float n){
        DecimalFormat df=new DecimalFormat("###,###.0");
         return df.format(n); 
     }
     @Override
-    public double thanhTien(){
+    public float thanhTien(){
         return donGia*soLuong;
     }
 
