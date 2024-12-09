@@ -1,6 +1,5 @@
 package dacn_letrananhnhung;
 
-import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -134,7 +133,7 @@ public class DanhSachDonHang {
         return x;
     }
 
-    public boolean checkma(String timKiem) {
+    public boolean kiemTraTimKiem(String timKiem) {
         for (DonHang dh : dsdh) {
             if (dh.getMaDH().equalsIgnoreCase(timKiem)) {
                 return true;
