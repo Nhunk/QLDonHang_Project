@@ -1,6 +1,7 @@
 package dacn_letrananhnhung;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -92,7 +93,7 @@ public class DonHang implements IDonHang {
         this.trangThai = trangThai;
     }
 
-    public static Date chuyenChuoiThanhNgay(String str) {
+    public static Date chuyenChuoiThanhNgay(String str) throws ParseException{
         try {
             return new SimpleDateFormat("đ/MM/yyyy").parse(str);
 
@@ -116,6 +117,6 @@ public class DonHang implements IDonHang {
 
     @Override
     public String toString(){
-        return maDH + ", "+tenKH + ", "+diaChi+", "+tenSP+","+donGia+", "+soLuong+", "+chuyenNgayThanhChuoi(ngayDat)+", "+trangThai+", "+dinhDangSo(thanhTien());
+        return maDH + ", "+tenKH + ", "+diaChi+", "+tenSP+", "+donGia+", "+soLuong+", "+chuyenNgayThanhChuoi(ngayDat)+", "+trangThai+", "+dinhDangSo(thanhTien());
     }
 }
