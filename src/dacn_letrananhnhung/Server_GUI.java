@@ -472,8 +472,8 @@ public class Server_GUI extends javax.swing.JFrame {
                             addmess("Client: " + mess);
                             if (mess.startsWith("maDH:")) {
                                 String searchQuery = mess.substring(6); // Extract the search query
-                                if (dsdh.kiemTraTimKiem(searchQuery)) {
-                                    List<DonHang> donHangList = dsdh.timKiemMaDH(searchQuery);
+                                List<DonHang> donHangList = dsdh.timKiemMaDH(searchQuery);
+                                if (!donHangList.isEmpty()) {
                                     StringBuilder sb = new StringBuilder();
                                     for (DonHang dh : donHangList) {
                                         sb.append(dh.toString()).append(";");
@@ -537,19 +537,8 @@ public class Server_GUI extends javax.swing.JFrame {
             int soLuong = Integer.parseInt(txtsoLuong.getText());
             Date ngayDat = DonHang.chuyenChuoiThanhNgay(txtngayDat.getText());
             String trangThai = txttrangThai.getText();
-
+    
             if (dsdh.edit(maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai)) {
-                for (DonHang x : dsdh.getDSDH()) {
-                    if (x.getMaDH().equalsIgnoreCase(maDH)) {
-                        x.setTenKH(tenKH);
-                        x.setDiaChi(diaChi);
-                        x.setTenSP(tenSP);
-                        x.setDonGia(donGia);
-                        x.setSoLuong(soLuong);
-                        x.setNgayDat(ngayDat);
-                        x.setTrangThai(trangThai);
-                    }
-                }
                 loadData(dsdh.getDSDH());
                 resetLabel();
                 addmess("Đã sửa thành công");
@@ -563,7 +552,7 @@ public class Server_GUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(btedit, "Lỗi định dạng ngày: " + e.getMessage());
             addmess("Lỗi định dạng ngày: " + e.getMessage());
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(btedit, e);
+            JOptionPane.showMessageDialog(btedit, e.getMessage());
             addmess(e.getMessage());
         }
     }// GEN-LAST:event_bteditActionPerformed
@@ -592,7 +581,7 @@ public class Server_GUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(btadd, "Lỗi định dạng ngày: " + e.getMessage());
             addmess("Lỗi định dạng ngày: " + e.getMessage());
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(btadd, e);
+            JOptionPane.showMessageDialog(btadd, e.getMessage());
             addmess(e.getMessage());
         }
     }// GEN-LAST:event_btaddActionPerformed

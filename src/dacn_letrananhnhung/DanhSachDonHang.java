@@ -49,17 +49,33 @@ public class DanhSachDonHang {
         return dsdh;
     }
 
-    public boolean themMoi(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong,
-            Date ngayDat, String trangThai) throws SQLException {
-        for (int i = 0; i < dsdh.size(); i++) {
-            if (dsdh.get(i).getMaDH().equalsIgnoreCase(maDH)) {
-                return false;
+    // public boolean themMoi(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong,
+    //         Date ngayDat, String trangThai) throws SQLException {
+    //     for (int i = 0; i < dsdh.size(); i++) {
+    //         if (dsdh.get(i).getMaDH().equalsIgnoreCase(maDH)) {
+                
+    //         }
+    //     }
+    //     String sql = "INSERT INTO DONHANG(maDH,tenKH,diaChi,tenSP,donGia,soLuong,ngayDat,trangThai)"
+    //             + "VALUES ('" + maDH + "', '" + tenKH + "','" + diaChi + "','" + tenSP + "', '" + donGia + "', '" + soLuong + "', "
+    //             + "'" + ngayDat + "', '" + trangThai + "' )";
+    //     Connection conn = connect();
+    //     Statement st = conn.createStatement();
+    //     st.executeUpdate(sql);
+    //     dsdh.add(new DonHang(maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai));
+    //     return true;
+    //     }
+    
+    public boolean themMoi(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong, Date ngayDat, String trangThai) throws SQLException {
+        for (DonHang dh : dsdh) {
+            if (dh.getMaDH().equalsIgnoreCase(maDH)) {
+                return false; // Order ID already exists
             }
         }
-        String sql = "INSERT INTO DSDONHANG (maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO DONHANG (maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connect();
-                PreparedStatement pst = conn.prepareStatement(sql)) {
-
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+    
             pst.setString(1, maDH);
             pst.setString(2, tenKH);
             pst.setString(3, diaChi);
@@ -69,31 +85,22 @@ public class DanhSachDonHang {
             pst.setDate(7, new java.sql.Date(ngayDat.getTime()));
             pst.setString(8, trangThai);
             pst.executeUpdate();
-
+    
             dsdh.add(new DonHang(maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai));
             return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-
     }
 
-    public boolean edit(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong,
-            Date ngayDat, String trangThai) throws SQLException {
+    public boolean edit(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong, Date ngayDat, String trangThai) throws SQLException {
         for (DonHang dh : dsdh) {
             if (dh.getMaDH().equalsIgnoreCase(maDH)) {
-                dh.setTenKH(tenKH);
-                dh.setDiaChi(diaChi);
-                dh.setTenSP(tenSP);
-                dh.setDonGia(donGia);
-                dh.setSoLuong(soLuong);
-                dh.setNgayDat(ngayDat);
-                dh.setTrangThai(trangThai);
-                String sql = "UPDATE DSDONHANG SET tenKH = N'" + tenKH + "', diaChi = N'" + diaChi + "', tenSP = N'"
-                        + tenSP + "', donGia = " + donGia + ", soLuong = " + soLuong + ", ngayDat = '"
-                        + DonHang.chuyenNgayThanhChuoi(ngayDat)
-                        + "', trangThai = N'" + trangThai + "' WHERE maDH = '" + maDH + "'";
+                String sql = "UPDATE DONHANG SET tenKH = ?, diaChi = ?, tenSP = ?, donGia = ?, soLuong = ?, ngayDat = ?, trangThai = ? WHERE maDH = ?";
                 try (Connection conn = connect();
-                        PreparedStatement pst = conn.prepareStatement(sql)) {
-
+                     PreparedStatement pst = conn.prepareStatement(sql)) {
+    
                     pst.setString(1, tenKH);
                     pst.setString(2, diaChi);
                     pst.setString(3, tenSP);
@@ -103,12 +110,37 @@ public class DanhSachDonHang {
                     pst.setString(7, trangThai);
                     pst.setString(8, maDH);
                     pst.executeUpdate();
+    
+                    dh.setTenKH(tenKH);
+                    dh.setDiaChi(diaChi);
+                    dh.setTenSP(tenSP);
+                    dh.setDonGia(donGia);
+                    dh.setSoLuong(soLuong);
+                    dh.setNgayDat(ngayDat);
+                    dh.setTrangThai(trangThai);
                     return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return false;
                 }
             }
         }
-        return false;
+        return false; // Order ID not found
     }
+    // public boolean edit(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong,
+    //         Date ngayDat, String trangThai) throws SQLException {
+    //             for (int i = 0; i < dsdh.size(); i++) {
+    //                 if (dsdh.get(i).getMaDH().equalsIgnoreCase(maDH)) {
+    //                     String sql = "UPDATE DONHANG SET tenKH = '" + tenKH + "',diaChi = '" + diaChi + "',tenSP = '" + tenSP + "',donGia = '" + donGia + "'"
+    //                             + ",soLuong = '" + soLuong + "',ngayDat = '" + ngayDat + "',trangThai = '" + trangThai + "' WHERE maDH = '" + maDH + "' ";
+    //                     Connection conn = connect();
+    //                     Statement st = conn.createStatement();
+    //                     st.executeUpdate(sql);
+    //                     return true;
+    //                 }
+    //             }
+    //             return false;
+    // }
 
     public boolean delete(String maDH) throws SQLException {
         for (int i = 0; i < dsdh.size(); i++) {
@@ -133,16 +165,6 @@ public class DanhSachDonHang {
         }
         return result;
     }
-
-    public boolean kiemTraTimKiem(String timKiem) {
-        for (DonHang dh : dsdh) {
-            if (dh.getMaDH().toLowerCase().contains(timKiem.toLowerCase())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public List<DonHang> timKiemTheoTrangThai(String trangThai) {
         List<DonHang> result = new ArrayList<>();
         for (DonHang dh : dsdh) {
