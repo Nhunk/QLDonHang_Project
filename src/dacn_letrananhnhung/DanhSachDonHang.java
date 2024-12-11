@@ -56,10 +56,7 @@ public class DanhSachDonHang {
                 return false;
             }
         }
-        String sql = "INSERT INTO DSDONHANG(maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai)"
-                + "VALUES ('"
-                + maDH + "', N'" + tenKH + "', N'" + diaChi + "', N'" + tenSP + "', " + donGia + ", " + soLuong + ", '"
-                + DonHang.chuyenNgayThanhChuoi(ngayDat) + "', N'" + trangThai + "')";
+        String sql = "INSERT INTO DSDONHANG (maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connect();
                 PreparedStatement pst = conn.prepareStatement(sql)) {
 

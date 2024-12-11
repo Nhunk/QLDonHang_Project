@@ -476,7 +476,7 @@ public class Server_GUI extends javax.swing.JFrame {
                                     List<DonHang> donHangList = dsdh.timKiemMaDH(searchQuery);
                                     StringBuilder sb = new StringBuilder();
                                     for (DonHang dh : donHangList) {
-                                        sb.append(dh.toString()).append("\n");
+                                        sb.append(dh.toString()).append(";");
                                     }
                                     mess1 = sb.toString();
                                 } else {
@@ -488,7 +488,7 @@ public class Server_GUI extends javax.swing.JFrame {
                                 if (!donHangList.isEmpty()) {
                                     StringBuilder sb = new StringBuilder();
                                     for (DonHang dh : donHangList) {
-                                        sb.append(dh.toString()).append("\n");
+                                        sb.append(dh.toString()).append(";");
                                     }
                                     mess1 = sb.toString();
                                 } else {

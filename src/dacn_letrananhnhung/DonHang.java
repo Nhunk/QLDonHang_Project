@@ -95,7 +95,7 @@ public class DonHang implements IDonHang {
 
     public static Date chuyenChuoiThanhNgay(String str) throws ParseException{
         try {
-            return new SimpleDateFormat("đ/MM/yyyy").parse(str);
+            return new SimpleDateFormat("dd/MM/yyyy").parse(str);
 
         } catch (Exception e) {
             System.out.println("Loi dinh dang ngay! " + e.getMessage());

@@ -500,11 +500,13 @@ public class Client_GUI extends javax.swing.JFrame {
                                 addmess("Không tìm thấy mã đơn hàng!");
 
                         } else {
-                                String[] output = mess1.split("\n");
+                                String[] output = mess1.split(";");
                                 DefaultTableModel model = (DefaultTableModel) tb_dsdh.getModel();
                                 model.setRowCount(0);
                                 for (String s : output) {
                                         String[] data = s.split(", ");
+                                        model.addRow(new Object[] { data[0], data[1], data[2], data[3], data[4],
+                                                data[5], data[8], data[6], data[7] });
                                         txtmaDH.setText(data[0]);
                                         txttenKH.setText(data[1]);
                                         txtdiaChi.setText(data[2]);
@@ -514,8 +516,6 @@ public class Client_GUI extends javax.swing.JFrame {
                                         txtngayDat.setText(data[6]);
                                         txttrangThai.setText(data[7]);
 
-                                        model.addRow(new Object[] { data[0], data[1], data[2], data[3], data[4],
-                                                        data[5], data[8], data[6], data[7] });
                                 }
                         }
                         addmess("Đã nhận dữ liệu từ server");
@@ -550,11 +550,12 @@ public class Client_GUI extends javax.swing.JFrame {
                                 addmess("Không tìm thấy !");
 
                         } else {
-                                String[] output = mess1.split("\n");
+                                String[] output = mess1.split(";");
                                 DefaultTableModel model = (DefaultTableModel) tb_dsdh.getModel();
                                 model.setRowCount(0); // Clear existing rows
                                 for (String x : output) {
                                     String[] data = x.split(", ");
+                                    model.addRow(new Object[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]});
                                     txtmaDH.setText(data[0]);
                                     txttenKH.setText(data[1]);
                                     txtdiaChi.setText(data[2]);
@@ -563,7 +564,6 @@ public class Client_GUI extends javax.swing.JFrame {
                                     txtsoLuong.setText(data[5]);
                                     txtngayDat.setText(data[6]);
                                     txttrangThai.setText(data[7]);
-                                    model.addRow(new Object[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]});
                                 }
                                 addmess("Đã nhận dữ liệu từ server");
                             }
