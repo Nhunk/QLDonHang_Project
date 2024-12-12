@@ -382,7 +382,7 @@ public class Client_GUI extends javax.swing.JFrame {
                 for (String s : output) {
                     String[] data = s.split(", ");
                     model.addRow(new Object[]{data[0], data[1], data[2], data[3], data[4],
-                        data[5], data[8], data[6], data[7]});
+                        data[5], data[8], data[6], data[7],data});
                     txtmaDH.setText(data[0]);
                     txttenKH.setText(data[1]);
                     txtdiaChi.setText(data[2]);
@@ -431,7 +431,7 @@ public class Client_GUI extends javax.swing.JFrame {
                 model.setRowCount(0); // Clear existing rows
                 for (String x : output) {
                     String[] data = x.split(", ");
-                    model.addRow(new Object[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]});
+                    model.addRow(new Object[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7],data[8]});
                     txtmaDH.setText(data[0]);
                     txttenKH.setText(data[1]);
                     txtdiaChi.setText(data[2]);

@@ -16,7 +16,6 @@ public class DanhSachDonHang {
     }
 
     public Connection connect() {
-        // Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         Connection conn = null;
         String url = "jdbc:sqlserver://localhost:1433;databaseName=donhang;user=sa;password=02042004;encrypt=true;trustServerCertificate=true;";
         try {
@@ -48,23 +47,6 @@ public class DanhSachDonHang {
 
         return dsdh;
     }
-
-    // public boolean themMoi(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong,
-    //         Date ngayDat, String trangThai) throws SQLException {
-    //     for (int i = 0; i < dsdh.size(); i++) {
-    //         if (dsdh.get(i).getMaDH().equalsIgnoreCase(maDH)) {
-                
-    //         }
-    //     }
-    //     String sql = "INSERT INTO DONHANG(maDH,tenKH,diaChi,tenSP,donGia,soLuong,ngayDat,trangThai)"
-    //             + "VALUES ('" + maDH + "', '" + tenKH + "','" + diaChi + "','" + tenSP + "', '" + donGia + "', '" + soLuong + "', "
-    //             + "'" + ngayDat + "', '" + trangThai + "' )";
-    //     Connection conn = connect();
-    //     Statement st = conn.createStatement();
-    //     st.executeUpdate(sql);
-    //     dsdh.add(new DonHang(maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai));
-    //     return true;
-    //     }
     
     public boolean themMoi(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong, Date ngayDat, String trangThai) throws SQLException {
         for (DonHang dh : dsdh) {
@@ -72,9 +54,9 @@ public class DanhSachDonHang {
                 return false; // Order ID already exists
             }
         }
-        String sql = "INSERT INTO DONHANG (maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = connect();
-             PreparedStatement pst = conn.prepareStatement(sql)) {
+        String sql = "INSERT INTO DSDONHANG (maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        Connection conn = connect();
+             PreparedStatement pst = conn.prepareStatement(sql);
     
             pst.setString(1, maDH);
             pst.setString(2, tenKH);
@@ -88,16 +70,13 @@ public class DanhSachDonHang {
     
             dsdh.add(new DonHang(maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai));
             return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        
     }
 
     public boolean edit(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong, Date ngayDat, String trangThai) throws SQLException {
         for (DonHang dh : dsdh) {
             if (dh.getMaDH().equalsIgnoreCase(maDH)) {
-                String sql = "UPDATE DONHANG SET tenKH = ?, diaChi = ?, tenSP = ?, donGia = ?, soLuong = ?, ngayDat = ?, trangThai = ? WHERE maDH = ?";
+                String sql = "UPDATE DSDONHANG SET tenKH = ?, diaChi = ?, tenSP = ?, donGia = ?, soLuong = ?, ngayDat = ?, trangThai = ? WHERE maDH = ?";
                 try (Connection conn = connect();
                      PreparedStatement pst = conn.prepareStatement(sql)) {
     
@@ -127,20 +106,6 @@ public class DanhSachDonHang {
         }
         return false; // Order ID not found
     }
-    // public boolean edit(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong,
-    //         Date ngayDat, String trangThai) throws SQLException {
-    //             for (int i = 0; i < dsdh.size(); i++) {
-    //                 if (dsdh.get(i).getMaDH().equalsIgnoreCase(maDH)) {
-    //                     String sql = "UPDATE DONHANG SET tenKH = '" + tenKH + "',diaChi = '" + diaChi + "',tenSP = '" + tenSP + "',donGia = '" + donGia + "'"
-    //                             + ",soLuong = '" + soLuong + "',ngayDat = '" + ngayDat + "',trangThai = '" + trangThai + "' WHERE maDH = '" + maDH + "' ";
-    //                     Connection conn = connect();
-    //                     Statement st = conn.createStatement();
-    //                     st.executeUpdate(sql);
-    //                     return true;
-    //                 }
-    //             }
-    //             return false;
-    // }
 
     public boolean delete(String maDH) throws SQLException {
         for (int i = 0; i < dsdh.size(); i++) {
