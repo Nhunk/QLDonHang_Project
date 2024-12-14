@@ -63,8 +63,6 @@ public class Client_GUI extends javax.swing.JFrame {
         txttrangThai = new javax.swing.JTextField();
         panel2 = new java.awt.Panel();
         bt_disconnect = new javax.swing.JButton();
-        txt_port = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
         bt_connect = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ketqua = new javax.swing.JTextArea();
@@ -129,13 +127,13 @@ public class Client_GUI extends javax.swing.JFrame {
                         .addGap(22, 22, 22)
                         .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
-                            .addComponent(jLabel7)
                             .addComponent(jLabel6)
                             .addComponent(jLabel5)
                             .addComponent(jLabel4)
                             .addComponent(jLabel3)
                             .addComponent(jLabel9)
-                            .addComponent(jLabel8))
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel7))
                         .addGap(40, 40, 40)
                         .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtmaDH, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -165,33 +163,31 @@ public class Client_GUI extends javax.swing.JFrame {
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
                     .addComponent(txttenKH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 29, Short.MAX_VALUE)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
-                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(txtdiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel6)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel7)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel8))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
-                        .addComponent(txttenSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtDonGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(txtsoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(12, 12, 12)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtdiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txttenSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtDonGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtsoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtngayDat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(18, 18, 18)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(txttrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         bt_disconnect.setText("Disconnect");
@@ -200,14 +196,6 @@ public class Client_GUI extends javax.swing.JFrame {
                 bt_disconnectActionPerformed(evt);
             }
         });
-
-        txt_port.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_portActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("Port");
 
         bt_connect.setText("Connect");
         bt_connect.addActionListener(new java.awt.event.ActionListener() {
@@ -225,31 +213,25 @@ public class Client_GUI extends javax.swing.JFrame {
         panel2Layout.setHorizontalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(20, 20, 20)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(txt_port, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(59, 59, 59)
                         .addComponent(bt_connect)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                        .addGap(64, 64, 64)
                         .addComponent(bt_disconnect)))
-                .addContainerGap())
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         panel2Layout.setVerticalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(33, 33, 33)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_port, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
                     .addComponent(bt_connect)
                     .addComponent(bt_disconnect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(47, 47, 47)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -361,7 +343,64 @@ public class Client_GUI extends javax.swing.JFrame {
     private void txttenKHActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txttenKHActionPerformed
         // TODO add your handling code here:
     }// GEN-LAST:event_txttenKHActionPerformed
+    
+    private void bt_connectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bt_connectActionPerformed
+        int port = 2004;
+            try {
+                client.ConnectServer("localhost", port);
+                addmess("Kết nối thành công");
+                bt_connect.setEnabled(false);
+                bt_disconnect.setEnabled(true);
 
+            } catch (IOException e) {
+                addmess(e.getMessage());
+            }
+        
+    }
+
+    private void bt_disconnectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bt_disconnectActionPerformed
+        client.Close();
+        bt_connect.setEnabled(true);
+        bt_disconnect.setEnabled(false);
+    }// GEN-LAST:event_bt_disconnectActionPerformed
+
+    private void bt_trangthaiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bt_trangthaiActionPerformed
+        String mess = JOptionPane.showInputDialog(bt_trangthai, "Nhập trạng thái đơn hàng!");
+        String mess1;
+        resetLabel();
+        try {
+            client.output("trangThai:" + mess);
+            addmess("Client: " + mess);
+            mess1 = client.input();
+            System.out.println(mess);
+            if (mess1.equalsIgnoreCase("null")) {
+                JOptionPane.showMessageDialog(bt_trangthai, "Không tìm thấy !");
+                addmess("Không tìm thấy !");
+
+            } else {
+                String[] output = mess1.split(";");
+                DefaultTableModel model = (DefaultTableModel) tb_dsdh.getModel();
+                model.setRowCount(0); // Clear existing rows
+                for (String x : output) {
+                    String[] data = x.split(", ");
+                    model.addRow(new Object[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7],data[8]});
+                    txtmaDH.setText(data[0]);
+                    txttenKH.setText(data[1]);
+                    txtdiaChi.setText(data[2]);
+                    txttenSP.setText(data[3]);
+                    txtDonGia.setText(data[4]);
+                    txtsoLuong.setText(data[5]);
+                    txtngayDat.setText(data[6]);
+                    txttrangThai.setText(data[7]);
+                }
+                addmess("Đã nhận dữ liệu từ server");
+            }
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(bt_madh, e.getMessage());
+            addmess(e.getMessage());
+        }
+    }
     private void bt_madhActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bt_madhActionPerformed
         String mess = JOptionPane.showInputDialog(bt_madh, "Nhập mã đơn hàng!");
         String mess1;
@@ -406,71 +445,9 @@ public class Client_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }// GEN-LAST:event_txt_portActionPerformed
 
-    private void bt_disconnectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bt_disconnectActionPerformed
-        client.Close();
-        bt_connect.setEnabled(true);
-        bt_disconnect.setEnabled(false);
-    }// GEN-LAST:event_bt_disconnectActionPerformed
+    // GEN-LAST:event_bt_trangthaiActionPerformed
 
-    private void bt_trangthaiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bt_trangthaiActionPerformed
-        String mess = JOptionPane.showInputDialog(bt_trangthai, "Nhập trạng thái đơn hàng!");
-        String mess1;
-        resetLabel();
-        try {
-            client.output("trangThai:" + mess);
-            addmess("Client: " + mess);
-            mess1 = client.input();
-            System.out.println(mess);
-            if (mess1.equalsIgnoreCase("null")) {
-                JOptionPane.showMessageDialog(bt_trangthai, "Không tìm thấy !");
-                addmess("Không tìm thấy !");
-
-            } else {
-                String[] output = mess1.split(";");
-                DefaultTableModel model = (DefaultTableModel) tb_dsdh.getModel();
-                model.setRowCount(0); // Clear existing rows
-                for (String x : output) {
-                    String[] data = x.split(", ");
-                    model.addRow(new Object[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7],data[8]});
-                    txtmaDH.setText(data[0]);
-                    txttenKH.setText(data[1]);
-                    txtdiaChi.setText(data[2]);
-                    txttenSP.setText(data[3]);
-                    txtDonGia.setText(data[4]);
-                    txtsoLuong.setText(data[5]);
-                    txtngayDat.setText(data[6]);
-                    txttrangThai.setText(data[7]);
-                }
-                addmess("Đã nhận dữ liệu từ server");
-            }
-
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(bt_madh, e.getMessage());
-            addmess(e.getMessage());
-        }
-    }// GEN-LAST:event_bt_trangthaiActionPerformed
-
-    private void bt_connectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bt_connectActionPerformed
-        if (txt_port.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(bt_connect, "Nhập port");
-        } else {
-            int port = 0;
-            try {
-                port = Integer.parseInt(txt_port.getText());
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(bt_connect, e.getMessage());
-            }
-            try {
-                client.ConnectServer("localhost", port);
-                addmess("Kết nối thành công");
-                bt_connect.setEnabled(false);
-                bt_disconnect.setEnabled(true);
-
-            } catch (IOException e) {
-                addmess(e.getMessage());
-            }
-        }
-    }// GEN-LAST:event_bt_connectActionPerformed
+    // GEN-LAST:event_bt_connectActionPerformed
 
     /**
      * @param args the command line arguments
@@ -528,7 +505,6 @@ public class Client_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -543,7 +519,6 @@ public class Client_GUI extends javax.swing.JFrame {
     private java.awt.Panel panel2;
     private javax.swing.JTable tb_dsdh;
     private javax.swing.JTextField txtDonGia;
-    private javax.swing.JTextField txt_port;
     private javax.swing.JTextField txtdiaChi;
     private javax.swing.JTextField txtmaDH;
     private javax.swing.JTextField txtngayDat;
