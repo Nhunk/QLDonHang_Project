@@ -49,14 +49,10 @@ public class DanhSachDonHang {
     }
     
     public boolean themMoi(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong, Date ngayDat, String trangThai) throws SQLException {
-        for (DonHang dh : dsdh) {
-            if (dh.getMaDH().equalsIgnoreCase(maDH)) {
-                return false; // Order ID already exists
-            }
-        }
         String sql = "INSERT INTO DSDONHANG (maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (
         Connection conn = connect();
-             PreparedStatement pst = conn.prepareStatement(sql);
+        PreparedStatement pst = conn.prepareStatement(sql)){
     
             pst.setString(1, maDH);
             pst.setString(2, tenKH);
@@ -70,9 +66,12 @@ public class DanhSachDonHang {
     
             dsdh.add(new DonHang(maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai));
             return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         
     }
-
     public boolean edit(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong, Date ngayDat, String trangThai) throws SQLException {
         for (DonHang dh : dsdh) {
             if (dh.getMaDH().equalsIgnoreCase(maDH)) {
