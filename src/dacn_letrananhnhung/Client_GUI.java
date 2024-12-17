@@ -17,7 +17,17 @@ public class Client_GUI extends javax.swing.JFrame {
 
     public void myInit() {
         setTitle("Client Quản lý đơn hàng");
-        bt_disconnect.setEnabled(false);
+        String host = "localhost";
+        int port = 2004;
+        try {
+            client.ConnectServer(host, port);
+            addmess("Kết nối thành công");
+            bt_disconnect.setEnabled(true);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            addmess(e.getMessage());
+        }
+
     }
 
     public void addmess(String mess) {
@@ -63,7 +73,6 @@ public class Client_GUI extends javax.swing.JFrame {
         txttrangThai = new javax.swing.JTextField();
         panel2 = new java.awt.Panel();
         bt_disconnect = new javax.swing.JButton();
-        bt_connect = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ketqua = new javax.swing.JTextArea();
         bt_madh = new javax.swing.JButton();
@@ -197,13 +206,6 @@ public class Client_GUI extends javax.swing.JFrame {
             }
         });
 
-        bt_connect.setText("Connect");
-        bt_connect.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_connectActionPerformed(evt);
-            }
-        });
-
         ketqua.setColumns(20);
         ketqua.setRows(5);
         jScrollPane1.setViewportView(ketqua);
@@ -218,20 +220,16 @@ public class Client_GUI extends javax.swing.JFrame {
                         .addGap(20, 20, 20)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panel2Layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(bt_connect)
-                        .addGap(64, 64, 64)
+                        .addGap(28, 28, 28)
                         .addComponent(bt_disconnect)))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         panel2Layout.setVerticalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bt_connect)
-                    .addComponent(bt_disconnect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
+                .addComponent(bt_disconnect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(46, 46, 46)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -343,24 +341,9 @@ public class Client_GUI extends javax.swing.JFrame {
     private void txttenKHActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txttenKHActionPerformed
         // TODO add your handling code here:
     }// GEN-LAST:event_txttenKHActionPerformed
-    
-    private void bt_connectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bt_connectActionPerformed
-        int port = 2004;
-            try {
-                client.ConnectServer("localhost", port);
-                addmess("Kết nối thành công");
-                bt_connect.setEnabled(false);
-                bt_disconnect.setEnabled(true);
-
-            } catch (IOException e) {
-                addmess(e.getMessage());
-            }
-        
-    }
 
     private void bt_disconnectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bt_disconnectActionPerformed
         client.Close();
-        bt_connect.setEnabled(true);
         bt_disconnect.setEnabled(false);
     }// GEN-LAST:event_bt_disconnectActionPerformed
 
@@ -383,7 +366,7 @@ public class Client_GUI extends javax.swing.JFrame {
                 model.setRowCount(0); // Clear existing rows
                 for (String x : output) {
                     String[] data = x.split(", ");
-                    model.addRow(new Object[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7],data[8]});
+                    model.addRow(new Object[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]});
                     txtmaDH.setText(data[0]);
                     txttenKH.setText(data[1]);
                     txtdiaChi.setText(data[2]);
@@ -401,16 +384,17 @@ public class Client_GUI extends javax.swing.JFrame {
             addmess(e.getMessage());
         }
     }
+
     private void bt_madhActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bt_madhActionPerformed
         String mess = JOptionPane.showInputDialog(bt_madh, "Nhập mã đơn hàng!");
         String mess1;
         resetLabel();
         try {
-            client.output("maDH:" + mess);
-            addmess("Client: " + mess);
+            client.output("maDH: " + mess);
+            addmess("Client:" + mess);
             mess1 = client.input();
             System.out.println(mess);
-            if (mess1.equalsIgnoreCase("null")|| mess1.equalsIgnoreCase("Không tìm thấy!")) {
+            if (mess1.equalsIgnoreCase("null") || mess1.equalsIgnoreCase("Không tìm thấy!")) {
                 JOptionPane.showMessageDialog(bt_madh, "Không tìm thấy mã đơn hàng!");
                 addmess("Không tìm thấy mã đơn hàng!");
 
@@ -421,7 +405,7 @@ public class Client_GUI extends javax.swing.JFrame {
                 for (String s : output) {
                     String[] data = s.split(", ");
                     model.addRow(new Object[]{data[0], data[1], data[2], data[3], data[4],
-                        data[5], data[8], data[6], data[7],data});
+                        data[5], data[8], data[6], data[7], data});
                     txtmaDH.setText(data[0]);
                     txttenKH.setText(data[1]);
                     txtdiaChi.setText(data[2]);
@@ -446,9 +430,7 @@ public class Client_GUI extends javax.swing.JFrame {
     }// GEN-LAST:event_txt_portActionPerformed
 
     // GEN-LAST:event_bt_trangthaiActionPerformed
-
     // GEN-LAST:event_bt_connectActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -498,7 +480,6 @@ public class Client_GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_connect;
     private javax.swing.JButton bt_disconnect;
     private javax.swing.JButton bt_madh;
     private javax.swing.JButton bt_trangthai;

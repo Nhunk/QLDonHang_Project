@@ -20,6 +20,7 @@ public class Server_GUI extends javax.swing.JFrame {
     public Server_GUI() {
         initComponents();
         myInit();
+        txtmaDH.setEnabled(false);
     }
 
     public void myInit() {
@@ -29,6 +30,63 @@ public class Server_GUI extends javax.swing.JFrame {
         btexit.setEnabled(false);
         inData();
         loadData(dsdh.getDSDH());
+
+        new Thread(() -> {
+            int port = 2004;
+            try {
+                server.connectServer(port);
+                addmess("Server đã sẵn sàng kết nối");
+                btexit.setEnabled(true);
+
+                try {
+                    server.connectClient();
+                    addmess("Kết nối thành công");
+                    boolean running = true;
+                    while (running) {
+                        String mess, mess1;
+                        mess = server.input();
+                        addmess("Client: " + mess);
+                        if (mess.startsWith("maDH:")) {
+                            String searchQuery = mess.substring(6); // Extract the search query
+                            List<DonHang> donHangList = dsdh.timKiemMaDH(searchQuery);
+                            if (!donHangList.isEmpty()) {
+                                StringBuilder sb = new StringBuilder();
+                                for (DonHang dh : donHangList) {
+                                    sb.append(dh.toString()).append(";");
+                                }
+                                mess1 = sb.toString();
+                            } else {
+                                mess1 = "Không tìm thấy!";
+                            }
+                        } else if (mess.startsWith("trangThai:")) {
+                            String searchQuery = mess.substring(10); // Extract the search query
+                            List<DonHang> donHangList = dsdh.timKiemTheoTrangThai(searchQuery);
+                            if (!donHangList.isEmpty()) {
+                                StringBuilder sb = new StringBuilder();
+                                for (DonHang dh : donHangList) {
+                                    sb.append(dh.toString()).append(";");
+                                }
+                                mess1 = sb.toString();
+                            } else {
+                                mess1 = "Không tìm thấy!";
+                            }
+                        } else {
+                            mess1 = "Yêu cầu không hợp lệ!";
+                        }
+                        addmess("Server: " + mess1);
+                        server.output(mess1);
+                    }
+
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(this, e.getMessage());
+                    addmess(e.getMessage());
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+                addmess(e.getMessage());
+            }
+        }).start();
     }
 
     public void addmess(String mess) {
@@ -40,9 +98,9 @@ public class Server_GUI extends javax.swing.JFrame {
             model.removeRow(0);
         }
         for (DonHang x : dh) {
-            model.addRow(new Object[] { x.getMaDH(), x.getTenKH(), x.getDiaChi(), x.getTenSP(), x.getDonGia(),
-                    x.getSoLuong(), DonHang.dinhDangSo(x.thanhTien()), DonHang.chuyenNgayThanhChuoi(x.getNgayDat()),
-                    x.getTrangThai() });
+            model.addRow(new Object[]{x.getMaDH(), x.getTenKH(), x.getDiaChi(), x.getTenSP(), x.getDonGia(),
+                x.getSoLuong(), DonHang.dinhDangSo(x.thanhTien()), DonHang.chuyenNgayThanhChuoi(x.getNgayDat()),
+                x.getTrangThai()});
         }
     }
 
@@ -50,7 +108,7 @@ public class Server_GUI extends javax.swing.JFrame {
         try {
             dh = dsdh.inData();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(btconnect, e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
 
@@ -81,7 +139,6 @@ public class Server_GUI extends javax.swing.JFrame {
         panel2 = new java.awt.Panel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txt_mess = new javax.swing.JTextArea();
-        btconnect = new javax.swing.JButton();
         btexit = new javax.swing.JButton();
         panel1 = new java.awt.Panel();
         txtmaDH = new javax.swing.JTextField();
@@ -130,13 +187,6 @@ public class Server_GUI extends javax.swing.JFrame {
         txt_mess.setRows(5);
         jScrollPane2.setViewportView(txt_mess);
 
-        btconnect.setText("Connect");
-        btconnect.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btconnectActionPerformed(evt);
-            }
-        });
-
         btexit.setText("Disconnect");
         btexit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -150,23 +200,18 @@ public class Server_GUI extends javax.swing.JFrame {
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
-                    .addGroup(panel2Layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(btconnect)
-                        .addGap(36, 36, 36)
-                        .addComponent(btexit)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(panel2Layout.createSequentialGroup()
+                .addGap(109, 109, 109)
+                .addComponent(btexit)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panel2Layout.setVerticalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel2Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btconnect)
-                    .addComponent(btexit))
+                .addComponent(btexit)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
                 .addContainerGap())
@@ -240,15 +285,9 @@ public class Server_GUI extends javax.swing.JFrame {
         panel1Layout.setHorizontalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(panel1Layout.createSequentialGroup()
-                        .addComponent(btedit, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addComponent(btadd, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btdelete, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
                         .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
@@ -268,8 +307,15 @@ public class Server_GUI extends javax.swing.JFrame {
                             .addComponent(txttenSP)
                             .addComponent(txtmaDH)
                             .addComponent(txttenKH)
-                            .addComponent(txttrangThai))))
-                .addGap(0, 61, Short.MAX_VALUE))
+                            .addComponent(txttrangThai)))
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(btedit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addComponent(btadd, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btdelete, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 50, Short.MAX_VALUE))
             .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(107, 107, 107)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -313,9 +359,8 @@ public class Server_GUI extends javax.swing.JFrame {
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btedit, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btdelete))
+                    .addComponent(btedit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btdelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btadd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -341,7 +386,7 @@ public class Server_GUI extends javax.swing.JFrame {
                 .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
+                .addGap(54, 54, 54))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,11 +406,7 @@ public class Server_GUI extends javax.swing.JFrame {
 
     private void txt_portActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txt_portActionPerformed
         // TODO add your handling code here:
-    }// GEN-LAST:event_txt_portActionPerformed
-
-    // GEN-LAST:event_btexitActionPerformed
-
-    // GEN-LAST:event_btconnectActionPerformed
+    }
 
     private void txttenKHActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txttenKHActionPerformed
         // TODO add your handling code here:
@@ -396,77 +437,12 @@ public class Server_GUI extends javax.swing.JFrame {
         txttrangThai.setText(model.getValueAt(selectedRow, 8).toString());
     }
 
-    private void btconnectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btconnectActionPerformed
-        new Thread(() -> {
-            int port = 2004;
-            try {
-                btconnect.setEnabled(false);
-                server.connectServer(port);
-                addmess("Server đã sẵn sàng kết nối");
-                btexit.setEnabled(true);
-                try {
-                    server.connectClient();
-                    addmess("Kết nối thành công");
-                    boolean running = true;
-                    while (running) {
-                        String mess, mess1;
-                        mess = server.input();
-                        addmess("Client: " + mess);
-                        if (mess.startsWith("maDH:")) {
-                            String searchQuery = mess.substring(6); // Extract the search query
-                            List<DonHang> donHangList = dsdh.timKiemMaDH(searchQuery);
-                            if (!donHangList.isEmpty()) {
-                                StringBuilder sb = new StringBuilder();
-                                for (DonHang dh : donHangList) {
-                                    sb.append(dh.toString()).append(";");
-                                }
-                                mess1 = sb.toString();
-                            } else {
-                                mess1 = "Không tìm thấy!";
-                            }
-                        } else if (mess.startsWith("trangThai:")) {
-                            String searchQuery = mess.substring(10); // Extract the search query
-                            List<DonHang> donHangList = dsdh.timKiemTheoTrangThai(searchQuery);
-                            if (!donHangList.isEmpty()) {
-                                StringBuilder sb = new StringBuilder();
-                                for (DonHang dh : donHangList) {
-                                    sb.append(dh.toString()).append(";");
-                                }
-                                mess1 = sb.toString();
-                            } else {
-                                mess1 = "Không tìm thấy!";
-                            }
-                        } else {
-                            mess1 = "Yêu cầu không hợp lệ!";
-                        }
-                        addmess("Server: " + mess1);
-                        server.output(mess1);
-                    }
-
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(btconnect, e.getMessage());
-                    btconnect.setEnabled(true);
-                    addmess(e.getMessage());
-                } finally {
-                    server.Close();
-                    btconnect.setEnabled(true);
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(btconnect, e.getMessage());
-                btconnect.setEnabled(true);
-                addmess(e.getMessage());
-            }
-        }).start();
-
-    }
-
     private void btexitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btexitActionPerformed
         try {
             server.Close();
             btexit.setEnabled(false);
-            btconnect.setEnabled(true);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(btconnect, e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
 
@@ -501,7 +477,6 @@ public class Server_GUI extends javax.swing.JFrame {
 
     private void btaddActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btaddActionPerformed
         try {
-            String maDH = txtmaDH.getText();
             String tenKH = txttenKH.getText();
             String diaChi = txtdiaChi.getText();
             String tenSP = txttenSP.getText();
@@ -509,12 +484,12 @@ public class Server_GUI extends javax.swing.JFrame {
             int soLuong = Integer.parseInt(txtsoLuong.getText());
             Date ngayDat = DonHang.chuyenChuoiThanhNgay(txtngayDat.getText());
             String trangThai = txttrangThai.getText();
-            if (dsdh.themMoi(maDH,tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai) == true) {
+            if (dsdh.themMoi(tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai) == true) {
                 loadData(dsdh.getDSDH());
                 resetLabel();
                 addmess("Đã thêm thành công");
             } else {
-                addmess("Mã đơn hàng đã tồn tại");
+                addmess("Lỗi khi thêm đơn hàng");
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(btadd, "Lỗi định dạng số: " + e.getMessage());
@@ -532,11 +507,6 @@ public class Server_GUI extends javax.swing.JFrame {
         String madh = txtmaDH.getText();
         try {
             if (dsdh.delete(madh)) {
-                for (DonHang x : dh) {
-                    if (x.getMaDH().equalsIgnoreCase(madh)) {
-                        dh.remove(x);
-                    }
-                }
                 loadData(dsdh.getDSDH());
                 resetLabel();
                 addmess("Đã xóa thành công");
@@ -548,11 +518,7 @@ public class Server_GUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(btdelete, e.getMessage());
             addmess(e.getMessage());
         }
-    }// GEN-LAST:event_btdeleteActionPerformed
-
-    // GEN-LAST:event_txttrangThaiActionPerformed
-
-    // GEN-LAST:event_tb_dsdhMouseClicked
+    }
 
     /**
      * @param args the command line arguments
@@ -599,7 +565,6 @@ public class Server_GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btadd;
-    private javax.swing.JButton btconnect;
     private javax.swing.JButton btdelete;
     private javax.swing.JButton btedit;
     private javax.swing.JButton btexit;

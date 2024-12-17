@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.Date;
 
 public class DanhSachDonHang {
+
     ArrayList<DonHang> dsdh = new ArrayList<DonHang>();
 
     public ArrayList<DonHang> getDSDH() {
@@ -47,13 +48,27 @@ public class DanhSachDonHang {
 
         return dsdh;
     }
-    
-    public boolean themMoi(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong, Date ngayDat, String trangThai) throws SQLException {
+
+    private String NewOrderID() throws SQLException {
+        String sql = "SELECT MAX(CAST(maDH AS INT)) AS maxID\n"
+                + //
+                "FROM DSDonHang;";
+        try (Connection conn = connect(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
+            if (rs.next()) {
+                int maxID = rs.getInt("maxID");
+                return String.valueOf(maxID + 1);
+            }
+        }
+        return "1";
+    }
+
+    public boolean themMoi(String tenKH, String diaChi, String tenSP, float donGia, int soLuong, Date ngayDat,
+            String trangThai) throws SQLException {
+        String maDH = NewOrderID();
         String sql = "INSERT INTO DSDONHANG (maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (
-        Connection conn = connect();
-        PreparedStatement pst = conn.prepareStatement(sql)){
-    
+                Connection conn = connect(); PreparedStatement pst = conn.prepareStatement(sql)) {
+
             pst.setString(1, maDH);
             pst.setString(2, tenKH);
             pst.setString(3, diaChi);
@@ -63,22 +78,23 @@ public class DanhSachDonHang {
             pst.setDate(7, new java.sql.Date(ngayDat.getTime()));
             pst.setString(8, trangThai);
             pst.executeUpdate();
-    
+
             dsdh.add(new DonHang(maDH, tenKH, diaChi, tenSP, donGia, soLuong, ngayDat, trangThai));
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
-        
+
     }
-    public boolean edit(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong, Date ngayDat, String trangThai) throws SQLException {
+
+    public boolean edit(String maDH, String tenKH, String diaChi, String tenSP, float donGia, int soLuong, Date ngayDat,
+            String trangThai) throws SQLException {
         for (DonHang dh : dsdh) {
             if (dh.getMaDH().equalsIgnoreCase(maDH)) {
                 String sql = "UPDATE DSDONHANG SET tenKH = ?, diaChi = ?, tenSP = ?, donGia = ?, soLuong = ?, ngayDat = ?, trangThai = ? WHERE maDH = ?";
-                try (Connection conn = connect();
-                     PreparedStatement pst = conn.prepareStatement(sql)) {
-    
+                try (Connection conn = connect(); PreparedStatement pst = conn.prepareStatement(sql)) {
+
                     pst.setString(1, tenKH);
                     pst.setString(2, diaChi);
                     pst.setString(3, tenSP);
@@ -88,7 +104,7 @@ public class DanhSachDonHang {
                     pst.setString(7, trangThai);
                     pst.setString(8, maDH);
                     pst.executeUpdate();
-    
+
                     dh.setTenKH(tenKH);
                     dh.setDiaChi(diaChi);
                     dh.setTenSP(tenSP);
@@ -110,11 +126,15 @@ public class DanhSachDonHang {
         for (int i = 0; i < dsdh.size(); i++) {
             if (dsdh.get(i).getMaDH().equalsIgnoreCase(maDH)) {
                 dsdh.remove(i);
-                String sql = "DELETE FROM DSDONHANG WHERE maDH = '" + maDH + "'";
-                Connection conn = connect();
-                Statement st = conn.createStatement();
-                st.executeUpdate(sql);
-                return true;
+                String sql = "DELETE FROM DSDONHANG WHERE maDH = ?";
+                try (Connection conn = connect(); PreparedStatement pst = conn.prepareStatement(sql)) {
+                    pst.setString(1, maDH);
+                    pst.executeUpdate();
+                    return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return false;
+                }
             }
         }
         return false;
@@ -123,12 +143,13 @@ public class DanhSachDonHang {
     public List<DonHang> timKiemMaDH(String tim) {
         List<DonHang> result = new ArrayList<>();
         for (DonHang dh : dsdh) {
-            if (dh.getMaDH().toLowerCase().contains(tim.toLowerCase())) {
+            if (dh.getMaDH().equalsIgnoreCase(tim)) {
                 result.add(dh);
             }
         }
         return result;
     }
+
     public List<DonHang> timKiemTheoTrangThai(String trangThai) {
         List<DonHang> result = new ArrayList<>();
         for (DonHang dh : dsdh) {
