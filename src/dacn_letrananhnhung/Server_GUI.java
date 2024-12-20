@@ -27,7 +27,6 @@ public class Server_GUI extends javax.swing.JFrame {
         setTitle("Server Quản lý đơn hàng");
         model = (DefaultTableModel) tb_dsdh.getModel();
         tb_dsdh.setModel(model);
-        btexit.setEnabled(false);
         inData();
         loadData(dsdh.getDSDH());
 
@@ -36,8 +35,6 @@ public class Server_GUI extends javax.swing.JFrame {
             try {
                 server.connectServer(port);
                 addmess("Server đã sẵn sàng kết nối");
-                btexit.setEnabled(true);
-
                 try {
                     server.connectClient();
                     addmess("Kết nối thành công");
@@ -139,7 +136,6 @@ public class Server_GUI extends javax.swing.JFrame {
         panel2 = new java.awt.Panel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txt_mess = new javax.swing.JTextArea();
-        btexit = new javax.swing.JButton();
         panel1 = new java.awt.Panel();
         txtmaDH = new javax.swing.JTextField();
         txttenKH = new javax.swing.JTextField();
@@ -187,13 +183,6 @@ public class Server_GUI extends javax.swing.JFrame {
         txt_mess.setRows(5);
         jScrollPane2.setViewportView(txt_mess);
 
-        btexit.setText("Disconnect");
-        btexit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btexitActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
         panel2Layout.setHorizontalGroup(
@@ -202,19 +191,13 @@ public class Server_GUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(panel2Layout.createSequentialGroup()
-                .addGap(109, 109, 109)
-                .addComponent(btexit)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panel2Layout.setVerticalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel2Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(btexit)
-                .addGap(18, 18, 18)
+                .addGap(27, 27, 27)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(41, 41, 41))
         );
 
         txttenKH.addActionListener(new java.awt.event.ActionListener() {
@@ -437,14 +420,6 @@ public class Server_GUI extends javax.swing.JFrame {
         txttrangThai.setText(model.getValueAt(selectedRow, 8).toString());
     }
 
-    private void btexitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btexitActionPerformed
-        try {
-            server.Close();
-            btexit.setEnabled(false);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-    }
 
     private void bteditActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bteditActionPerformed
         try {
@@ -567,7 +542,6 @@ public class Server_GUI extends javax.swing.JFrame {
     private javax.swing.JButton btadd;
     private javax.swing.JButton btdelete;
     private javax.swing.JButton btedit;
-    private javax.swing.JButton btexit;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;

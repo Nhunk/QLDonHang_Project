@@ -22,7 +22,6 @@ public class Client_GUI extends javax.swing.JFrame {
         try {
             client.ConnectServer(host, port);
             addmess("Kết nối thành công");
-            bt_disconnect.setEnabled(true);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
             addmess(e.getMessage());
@@ -72,7 +71,6 @@ public class Client_GUI extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         txttrangThai = new javax.swing.JTextField();
         panel2 = new java.awt.Panel();
-        bt_disconnect = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ketqua = new javax.swing.JTextArea();
         bt_madh = new javax.swing.JButton();
@@ -199,13 +197,6 @@ public class Client_GUI extends javax.swing.JFrame {
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
-        bt_disconnect.setText("Disconnect");
-        bt_disconnect.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_disconnectActionPerformed(evt);
-            }
-        });
-
         ketqua.setColumns(20);
         ketqua.setRows(5);
         jScrollPane1.setViewportView(ketqua);
@@ -215,21 +206,14 @@ public class Client_GUI extends javax.swing.JFrame {
         panel2Layout.setHorizontalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel2Layout.createSequentialGroup()
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panel2Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panel2Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(bt_disconnect)))
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         panel2Layout.setVerticalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(bt_disconnect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(46, 46, 46)
+                .addContainerGap(95, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -341,11 +325,6 @@ public class Client_GUI extends javax.swing.JFrame {
     private void txttenKHActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txttenKHActionPerformed
         // TODO add your handling code here:
     }// GEN-LAST:event_txttenKHActionPerformed
-
-    private void bt_disconnectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bt_disconnectActionPerformed
-        client.Close();
-        bt_disconnect.setEnabled(false);
-    }// GEN-LAST:event_bt_disconnectActionPerformed
 
     private void bt_trangthaiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bt_trangthaiActionPerformed
         String mess = JOptionPane.showInputDialog(bt_trangthai, "Nhập trạng thái đơn hàng!");
@@ -480,7 +459,6 @@ public class Client_GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_disconnect;
     private javax.swing.JButton bt_madh;
     private javax.swing.JButton bt_trangthai;
     private javax.swing.JLabel jLabel1;
